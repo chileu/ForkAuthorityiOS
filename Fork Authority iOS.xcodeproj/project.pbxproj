@@ -12,6 +12,11 @@
 		926103521EDA1108009E9442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 926103501EDA1108009E9442 /* Main.storyboard */; };
 		926103541EDA1108009E9442 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 926103531EDA1108009E9442 /* Assets.xcassets */; };
 		926103571EDA1108009E9442 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 926103551EDA1108009E9442 /* LaunchScreen.storyboard */; };
+		9261035F1EDA134A009E9442 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9261035E1EDA134A009E9442 /* MainTabBarController.swift */; };
+		926103611EDA1417009E9442 /* BusinessController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926103601EDA1417009E9442 /* BusinessController.swift */; };
+		9299B8F31EDA1B9500D2FC7B /* BusinessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9299B8F21EDA1B9500D2FC7B /* BusinessCell.swift */; };
+		9299B8F61EDA1CBB00D2FC7B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9299B8F51EDA1CBB00D2FC7B /* Extensions.swift */; };
+		9299B8F81EDA454E00D2FC7B /* BusinessHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9299B8F71EDA454E00D2FC7B /* BusinessHeader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +27,11 @@
 		926103531EDA1108009E9442 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		926103561EDA1108009E9442 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		926103581EDA1108009E9442 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9261035E1EDA134A009E9442 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		926103601EDA1417009E9442 /* BusinessController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessController.swift; sourceTree = "<group>"; };
+		9299B8F21EDA1B9500D2FC7B /* BusinessCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessCell.swift; sourceTree = "<group>"; };
+		9299B8F51EDA1CBB00D2FC7B /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		9299B8F71EDA454E00D2FC7B /* BusinessHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessHeader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,13 +65,26 @@
 			isa = PBXGroup;
 			children = (
 				9261034C1EDA1108009E9442 /* AppDelegate.swift */,
-				9261034E1EDA1108009E9442 /* ViewController.swift */,
+				9261035E1EDA134A009E9442 /* MainTabBarController.swift */,
+				926103601EDA1417009E9442 /* BusinessController.swift */,
+				9299B8F21EDA1B9500D2FC7B /* BusinessCell.swift */,
+				9299B8F71EDA454E00D2FC7B /* BusinessHeader.swift */,
+				9299B8F41EDA1CAC00D2FC7B /* Utils */,
 				926103501EDA1108009E9442 /* Main.storyboard */,
 				926103531EDA1108009E9442 /* Assets.xcassets */,
 				926103551EDA1108009E9442 /* LaunchScreen.storyboard */,
+				9261034E1EDA1108009E9442 /* ViewController.swift */,
 				926103581EDA1108009E9442 /* Info.plist */,
 			);
 			path = "Fork Authority iOS";
+			sourceTree = "<group>";
+		};
+		9299B8F41EDA1CAC00D2FC7B /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				9299B8F51EDA1CBB00D2FC7B /* Extensions.swift */,
+			);
+			name = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,8 +160,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9299B8F31EDA1B9500D2FC7B /* BusinessCell.swift in Sources */,
+				9299B8F61EDA1CBB00D2FC7B /* Extensions.swift in Sources */,
+				9299B8F81EDA454E00D2FC7B /* BusinessHeader.swift in Sources */,
 				9261034F1EDA1108009E9442 /* ViewController.swift in Sources */,
 				9261034D1EDA1108009E9442 /* AppDelegate.swift in Sources */,
+				9261035F1EDA134A009E9442 /* MainTabBarController.swift in Sources */,
+				926103611EDA1417009E9442 /* BusinessController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,6 +330,7 @@
 				9261035D1EDA1108009E9442 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
