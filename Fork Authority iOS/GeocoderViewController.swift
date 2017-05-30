@@ -56,6 +56,7 @@ class GeocoderViewController: BusinessController, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         // handle error here
+        print("error finding location", error)
     }
     
 }

@@ -11,7 +11,6 @@ import Foundation
 struct Business: CustomStringConvertible {
     
     // MARK: Properties
-    var businessId: String
     var name: String
     var image_url: String
     var review_count: Int
@@ -22,7 +21,7 @@ struct Business: CustomStringConvertible {
     var numberedOrder: Int? // optional int. not included in init method below.
                             // set from collection view's indexPath.item?? 
     
-    init(businessId: String, name: String, image_url: String, review_count: Int, categories: [String], rating: Double, address: String, distance: Double) {
+    init(name: String, image_url: String, review_count: Int, categories: [String], rating: Double, address: String, distance: Double) {
         self.name = name
         self.image_url = image_url
         self.review_count = review_count
@@ -30,7 +29,6 @@ struct Business: CustomStringConvertible {
         self.rating = rating
         self.address = address
         self.distance = distance
-        self.businessId = businessId
     }
     
     var description: String {

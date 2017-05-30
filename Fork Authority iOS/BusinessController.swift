@@ -41,8 +41,13 @@ class BusinessController: UICollectionViewController, UICollectionViewDelegateFl
     
     func searchYelp(for location: Location) {
 
-        YelpAPI.fetchBusinesses(for: location) { (businesses) in
-            
+        YelpAPI.fetchBusinesses(for: location) { [weak self] (businesses) in
+            if !businesses.isEmpty {
+                DispatchQueue.main.async {
+                    self?.businesses = businesses
+                    self?.collectionView?.reloadData()
+                }
+            }
         }
     }
     
@@ -69,12 +74,13 @@ class BusinessController: UICollectionViewController, UICollectionViewDelegateFl
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return businesses.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! BusinessCell
 
+        cell.business = businesses[indexPath.item]
         
         return cell
     }
@@ -86,7 +92,7 @@ class BusinessController: UICollectionViewController, UICollectionViewDelegateFl
         let dummyCell = BusinessCell(frame: frame)
         
         // set the cell's business after making api call
-        //dummyCell.business = business[indexPath.item]
+        dummyCell.business = businesses[indexPath.item]
         
         dummyCell.layoutIfNeeded()      // this needs to be set after you load in the comment!! very important
         

@@ -10,41 +10,66 @@ import UIKit
 
 class BusinessCell: UICollectionViewCell {
     
+    var business: Business? {
+        didSet {
+            updateUIForCell()
+        }
+    }
+    
+    fileprivate func updateUIForCell() {
+        guard let business = business else { return }
+        
+        businessNameLabel.text = business.name
+        addressLabel.text = business.address
+        reviewsLabel.text = "\(business.review_count)" + " review\(business.review_count > 1 ? "s" : " ")"
+        categoriesLabel.text = business.categories.joined(separator: ", ")
+    
+        if let url = URL(string: business.image_url) {
+            DispatchQueue.global(qos: .userInitiated).async {
+                if let data = try? Data(contentsOf: url) {
+                    DispatchQueue.main.async { [weak self] in
+                        self?.businessImageView.image = UIImage(data: data)
+                    }
+                }
+            }
+        }
+
+        if let image = UIImage(named: "\(business.rating)") {
+            ratingsImageView.image = image
+        }
+
+    }
+    
     let cardView: UIView = {
         let card = UIView()
         card.backgroundColor = .white
         return card
     }()
     
-    let businessImageView: UIImageView = {
+    lazy var businessImageView: UIImageView = {
         let iv = UIImageView()
-        
-        iv.backgroundColor = .purple
-        
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         return iv
     }()
     
-    let businessNameLabel: UILabel = {
+    lazy var businessNameLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.yelpFontGrey()
         label.textAlignment = .left
         label.font = UIFont.smallBoldFont()
-        label.text = "1. " + "Business Name that might wrap onto the next line"
         label.numberOfLines = 0
         return label
     }()
     
-    let ratingsImageView: UIImageView = {
+    lazy var ratingsImageView: UIImageView = {
         let iv = UIImageView()
-        iv.image = #imageLiteral(resourceName: "0_stars").withRenderingMode(.alwaysOriginal)
         iv.contentMode = .scaleAspectFit
         iv.clipsToBounds = true
         return iv
     }()
     
-    let reviewsLabel: UILabel = {
+    lazy var reviewsLabel: UILabel = {
         let label = UILabel()
         label.text = "237 reviews"
         label.textColor = UIColor.yelpFontGrey()
@@ -53,7 +78,7 @@ class BusinessCell: UICollectionViewCell {
         return label
     }()
     
-    let addressLabel: UILabel = {
+    lazy var addressLabel: UILabel = {
         let label = UILabel()
         label.text = "Address"
         label.textColor = UIColor.yelpFontGrey()
@@ -63,9 +88,8 @@ class BusinessCell: UICollectionViewCell {
         return label
     }()
     
-    let categoriesLabel: UILabel = {
+    lazy var categoriesLabel: UILabel = {
         let label = UILabel()
-        label.text = "Categories that might wrap onto more than one line or multiple lines"
         label.numberOfLines = 0
         label.textColor = UIColor.yelpFontGrey()
         label.textAlignment = .left
@@ -178,7 +202,7 @@ class BusinessCell: UICollectionViewCell {
         addSubview(categoriesLabel)
         addSubview(dividerLine)
         
-        businessNameLabel.anchor(top: cardView.topAnchor, left: businessImageView.rightAnchor, bottom: ratingsStackview.topAnchor, right: cardView.rightAnchor, paddingTop: 10, paddingLeft: 8, paddingBottom: 2, paddingRight: 5, width: 0, height: 0)
+        businessNameLabel.anchor(top: businessImageView.topAnchor, left: businessImageView.rightAnchor, bottom: ratingsStackview.topAnchor, right: cardView.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 2, paddingRight: 5, width: 0, height: 0)
         
         ratingsStackview.anchor(top: businessNameLabel.bottomAnchor, left: businessNameLabel.leftAnchor, bottom: addressLabel.topAnchor, right: nil, paddingTop: 2, paddingLeft: 0, paddingBottom: 2, paddingRight: 0, width: 0, height: 15)
         ratingsImageView.anchor(top: ratingsStackview.topAnchor, left: ratingsStackview.leftAnchor, bottom: ratingsStackview.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
@@ -206,6 +230,7 @@ class BusinessCell: UICollectionViewCell {
         addSubview(dislikeTextButton)
         dislikeTextButton.anchor(top: dislikeImageButton.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 10)
         dislikeTextButton.centerXAnchor.constraint(equalTo: dislikeImageButton.centerXAnchor).isActive = true
+
 
     }
     
