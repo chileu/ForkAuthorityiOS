@@ -10,8 +10,20 @@ import UIKit
 
 class BusinessController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
+    var location: Location? {
+        didSet {
+            // set searchTextField in header - is there a way to reload header only?...
+            collectionView?.reloadData()
+            
+            // get yelp results for location
+            guard let location = location else { return }
+            searchYelp(for: location)
+        }
+    }
+    var businesses = [Business]()
     let cellId = "cellId"
     let headerId = "headerId"
+
     
     let bannerView: UIView = {
         let view = UIView()
@@ -27,6 +39,13 @@ class BusinessController: UICollectionViewController, UICollectionViewDelegateFl
         return label
     }()
     
+    func searchYelp(for location: Location) {
+
+        YelpAPI.fetchBusinesses(for: location) { (businesses) in
+            
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,15 +53,19 @@ class BusinessController: UICollectionViewController, UICollectionViewDelegateFl
         collectionView?.register(BusinessCell.self, forCellWithReuseIdentifier: cellId)
         collectionView?.register(BusinessHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
         
+        addBanner()
+
+    }
+    
+    fileprivate func addBanner() {
         guard let navBar = navigationController?.navigationBar else { return }
-       
+        
         navBar.addSubview(bannerView)
         bannerView.anchor(top: navBar.topAnchor, left: navBar.leftAnchor, bottom: navBar.bottomAnchor, right: navBar.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
         bannerView.addSubview(bannerLabel)
         bannerLabel.anchor(top: nil, left: bannerView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         bannerLabel.centerYAnchor.constraint(equalTo: bannerView.centerYAnchor).isActive = true
-
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -79,6 +102,7 @@ class BusinessController: UICollectionViewController, UICollectionViewDelegateFl
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! BusinessHeader
 
+        header.location = self.location
         
         return header
     }

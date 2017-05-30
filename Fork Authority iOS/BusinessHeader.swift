@@ -10,10 +10,17 @@ import UIKit
 
 class BusinessHeader: UICollectionViewCell {
     
+    var location: Location? {
+        didSet {
+            guard let location = location else { return }
+            searchTextField.text = "\(location.name)" + " \(location.state ?? "")" + " \(location.zip ?? "")"
+        }
+    }
+    
     let searchTextField: UITextField = {
         let tf = UITextField()
         
-        tf.backgroundColor = .purple
+        tf.textColor = UIColor.yelpFontGrey()
         
         return tf
     }()

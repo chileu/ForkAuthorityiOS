@@ -14,8 +14,8 @@ class MainTabBarController: UITabBarController {
         super.viewDidLoad()
         
         // use UICollectionViewFLOWLAYOUT when instantiating collection view controller
-        let businessController = BusinessController(collectionViewLayout: UICollectionViewFlowLayout())
-        let navController = UINavigationController(rootViewController: businessController)
+        let mainController = GeocoderViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        let navController = UINavigationController(rootViewController: mainController)
         navController.tabBarItem.image = #imageLiteral(resourceName: "home_unselected").withRenderingMode(.alwaysOriginal)
         navController.tabBarItem.selectedImage = #imageLiteral(resourceName: "home_selected").withRenderingMode(.alwaysOriginal)
         
