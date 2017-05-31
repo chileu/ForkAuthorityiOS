@@ -104,21 +104,23 @@ class BusinessCell: UICollectionViewCell {
         return view
     }()
     
-    lazy var likeButton: UIButton = {
+    lazy var likeImageButton: UIButton = {
         let button = UIButton(type: .system)
         
         // set button's tint color to grey and image's rendering mode to .alwaysTemplate for grey image
         button.tintColor = UIColor.yelpFontGrey()
         button.setImage(#imageLiteral(resourceName: "ThumbsUpUnfilled").withRenderingMode(.alwaysTemplate), for: .normal)
-        button.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 10, 0)
-        
+        button.addTarget(self, action: #selector(handleLike), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var likeTextButton: UIButton = {
+        let button = UIButton(type: .system)
         button.setTitle("LIKE", for: .normal)
-        button.titleEdgeInsets = UIEdgeInsetsMake(30, -65, 0, 0)
+        //button.titleEdgeInsets = UIEdgeInsetsMake(30, -65, 0, 0)
         button.setTitleColor(UIColor.yelpFontGrey(), for: .normal)
         button.titleLabel?.font = UIFont.smallestFont()
-        
         button.addTarget(self, action: #selector(handleLike), for: .touchUpInside)
-        
         return button
     }()
     
@@ -131,7 +133,7 @@ class BusinessCell: UICollectionViewCell {
         // set button's tint color to grey and image's rendering mode to .alwaysTemplate for grey image
         button.tintColor = UIColor.yelpFontGrey()
         button.setImage(#imageLiteral(resourceName: "JustAteHereUnfilled").withRenderingMode(.alwaysTemplate), for: .normal)
-        button.imageEdgeInsets = UIEdgeInsetsMake(3, 5, 3, 5)
+        button.imageEdgeInsets = UIEdgeInsetsMake(1, 3, 1, 3)
         
         button.addTarget(self, action: #selector(handleAteHere), for: .touchUpInside)
         
@@ -191,7 +193,7 @@ class BusinessCell: UICollectionViewCell {
         cardView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 15, paddingRight: 15, width: 0, height: 0)
         
         addSubview(businessImageView)
-        businessImageView.anchor(top: cardView.topAnchor, left: cardView.leftAnchor, bottom: cardView.bottomAnchor, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 58 + 7, paddingRight: 0, width: 85, height: 85)
+        businessImageView.anchor(top: cardView.topAnchor, left: cardView.leftAnchor, bottom: cardView.bottomAnchor, right: nil, paddingTop: 8, paddingLeft: 8, paddingBottom: 48 + 5, paddingRight: 0, width: 85, height: 85)
         
         let ratingsStackview = UIStackView(arrangedSubviews: [ratingsImageView, reviewsLabel])
         ratingsStackview.axis = .horizontal
@@ -220,19 +222,22 @@ class BusinessCell: UICollectionViewCell {
         dividerLine.anchor(top: nil, left: cardView.leftAnchor, bottom: nil, right: cardView.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: 0, height: 1)
         dividerLine.topAnchor.constraint(greaterThanOrEqualTo: dividerLine.bottomAnchor, constant: 8).isActive = true
         
-        addSubview(likeButton)
-        likeButton.anchor(top: dividerLine.topAnchor, left: cardView.leftAnchor, bottom: cardView.bottomAnchor, right: nil, paddingTop: 8, paddingLeft: 30, paddingBottom: 10, paddingRight: 0, width: 40, height: 40)
+        addSubview(likeImageButton)
+        likeImageButton.anchor(top: dividerLine.topAnchor, left: cardView.leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 35, paddingBottom: 0, paddingRight: 0, width: 30, height: 20)
+        addSubview(likeTextButton)
+        likeTextButton.anchor(top: likeImageButton.bottomAnchor, left: nil, bottom: cardView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 8, paddingRight: 0, width: 0, height: 10)
+        likeTextButton.centerXAnchor.constraint(equalTo: likeImageButton.centerXAnchor).isActive = true
+        
         
         addSubview(justAteHereImageButton)
-        justAteHereImageButton.anchor(top: dividerLine.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 35, height: 30)
+        justAteHereImageButton.anchor(top: dividerLine.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 25, height: 20)
         justAteHereImageButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         addSubview(justAteHereTextButton)
         justAteHereTextButton.anchor(top: justAteHereImageButton.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 10)
         justAteHereTextButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
-        
         addSubview(dislikeImageButton)
-        dislikeImageButton.anchor(top: dividerLine.topAnchor, left: nil, bottom: nil, right: cardView.rightAnchor, paddingTop: 8, paddingLeft: 0, paddingBottom: 0, paddingRight: 30, width: 40, height: 30)
+        dislikeImageButton.anchor(top: dividerLine.topAnchor, left: nil, bottom: nil, right: cardView.rightAnchor, paddingTop: 8, paddingLeft: 0, paddingBottom: 0, paddingRight: 35, width: 30, height: 20)
         addSubview(dislikeTextButton)
         dislikeTextButton.anchor(top: dislikeImageButton.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 10)
         dislikeTextButton.centerXAnchor.constraint(equalTo: dislikeImageButton.centerXAnchor).isActive = true

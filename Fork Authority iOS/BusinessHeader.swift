@@ -36,10 +36,16 @@ class BusinessHeader: UICollectionViewCell {
     
     let foodOptionsLabel: UILabel = {
         let label = UILabel()
-        label.text = "FOOD OPTIONS"
-        label.textAlignment = .center
-        label.font = UIFont.mediumFont()
-        label.textColor = UIColor.yelpFontGrey()
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.alignment = .center
+        let attributedText = NSMutableAttributedString(string: "FOOD OPTIONS", attributes: [NSFontAttributeName: UIFont.mediumFont(), NSForegroundColorAttributeName: UIColor.yelpFontGrey(), NSParagraphStyleAttributeName: paragraph])
+        attributedText.addAttribute(NSKernAttributeName, value: CGFloat(2.0), range: NSRange(location: 0, length: attributedText.length - 1))
+        label.attributedText = attributedText
+        
+        //label.text = "FOOD OPTIONS"
+        //label.textAlignment = .center
+        //label.font = UIFont.mediumFont()
+        //label.textColor = UIColor.yelpFontGrey()
         return label
     }()
     
@@ -47,7 +53,7 @@ class BusinessHeader: UICollectionViewCell {
         let label = UILabel()
         label.text = "powered by"
         label.textAlignment = .right
-        label.font = UIFont.smallestItalicFont()
+        label.font = UIFont.smallerItalicFont()
         label.numberOfLines = 1
         label.textColor = UIColor.yelpFontGrey()
         return label
@@ -74,7 +80,7 @@ class BusinessHeader: UICollectionViewCell {
         addSubview(locationStackview)
         locationStackview.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 20)
         
-        searchTextField.anchor(top: locationStackview.topAnchor, left: locationStackview.leftAnchor, bottom: locationStackview.bottomAnchor, right: greenIndicator.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        searchTextField.anchor(top: locationStackview.topAnchor, left: locationStackview.leftAnchor, bottom: locationStackview.bottomAnchor, right: greenIndicator.leftAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
         greenIndicator.anchor(top: locationStackview.topAnchor, left: nil, bottom: locationStackview.bottomAnchor, right: locationStackview.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 27, height: 0)
         
@@ -87,12 +93,12 @@ class BusinessHeader: UICollectionViewCell {
         logoStackview.distribution = .fillProportionally
         
         addSubview(logoStackview)
-        logoStackview.anchor(top: foodOptionsLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 120, height: 20)
+        logoStackview.anchor(top: foodOptionsLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 130, height: 20)
         logoStackview.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
         poweredByLabel.anchor(top: logoStackview.topAnchor, left: logoStackview.leftAnchor, bottom: logoStackview.bottomAnchor, right: yelpLogo.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
-        yelpLogo.anchor(top: logoStackview.topAnchor, left: nil, bottom: logoStackview.bottomAnchor, right: logoStackview.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 50, height: 0)
+        yelpLogo.anchor(top: logoStackview.topAnchor, left: nil, bottom: logoStackview.bottomAnchor, right: logoStackview.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 55, height: 0)
     }
     
     required init?(coder aDecoder: NSCoder) {

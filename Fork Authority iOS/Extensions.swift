@@ -36,7 +36,7 @@ extension UIColor {
 let largeFontSize = CGFloat(21)
 let mediumFontSize = CGFloat(18)
 let smallFontSize = CGFloat(15)
-let smallerFontSize = CGFloat(12)
+let smallerFontSize = CGFloat(13)
 let smallestFontSize = CGFloat(10)
 
 extension UIFont {
@@ -79,8 +79,8 @@ extension UIFont {
     }
     
     // italic
-    static func smallestItalicFont() -> UIFont {
-        return UIFont.italicSystemFont(ofSize: 12)
+    static func smallerItalicFont() -> UIFont {
+        return UIFont.italicSystemFont(ofSize: smallerFontSize)
     }
     
     

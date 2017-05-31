@@ -54,7 +54,7 @@ class BusinessController: UICollectionViewController, UICollectionViewDelegateFl
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView?.backgroundColor = .white
+        collectionView?.backgroundColor = UIColor.yelpBackgroundGrey()
         collectionView?.register(BusinessCell.self, forCellWithReuseIdentifier: cellId)
         collectionView?.register(BusinessHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
         
