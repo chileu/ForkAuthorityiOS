@@ -18,8 +18,9 @@ class BusinessCell: UICollectionViewCell {
     
     fileprivate func updateUIForCell() {
         guard let business = business else { return }
+        guard let numberedOrder = business.numberedOrder else { return }
         
-        businessNameLabel.text = business.name
+        businessNameLabel.text = "\(numberedOrder). " + "\(business.name)"
         addressLabel.text = business.address
         reviewsLabel.text = "\(business.review_count)" + " review\(business.review_count > 1 ? "s" : " ")"
         categoriesLabel.text = business.categories.joined(separator: ", ")
@@ -93,7 +94,7 @@ class BusinessCell: UICollectionViewCell {
         label.numberOfLines = 0
         label.textColor = UIColor.yelpFontGrey()
         label.textAlignment = .left
-        label.font = UIFont.smallFont()
+        label.font = UIFont.smallerFont()
         return label
     }()
     
@@ -184,12 +185,13 @@ class BusinessCell: UICollectionViewCell {
         
     }
     
+    
     fileprivate func setSubviews() {
         addSubview(cardView)
         cardView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 15, paddingRight: 15, width: 0, height: 0)
         
         addSubview(businessImageView)
-        businessImageView.anchor(top: cardView.topAnchor, left: cardView.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 85, height: 85)
+        businessImageView.anchor(top: cardView.topAnchor, left: cardView.leftAnchor, bottom: cardView.bottomAnchor, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 58 + 7, paddingRight: 0, width: 85, height: 85)
         
         let ratingsStackview = UIStackView(arrangedSubviews: [ratingsImageView, reviewsLabel])
         ratingsStackview.axis = .horizontal
@@ -203,16 +205,20 @@ class BusinessCell: UICollectionViewCell {
         addSubview(dividerLine)
         
         businessNameLabel.anchor(top: businessImageView.topAnchor, left: businessImageView.rightAnchor, bottom: ratingsStackview.topAnchor, right: cardView.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 2, paddingRight: 5, width: 0, height: 0)
+        businessNameLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .vertical)
         
         ratingsStackview.anchor(top: businessNameLabel.bottomAnchor, left: businessNameLabel.leftAnchor, bottom: addressLabel.topAnchor, right: nil, paddingTop: 2, paddingLeft: 0, paddingBottom: 2, paddingRight: 0, width: 0, height: 15)
         ratingsImageView.anchor(top: ratingsStackview.topAnchor, left: ratingsStackview.leftAnchor, bottom: ratingsStackview.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         reviewsLabel.anchor(top: ratingsStackview.topAnchor, left: nil, bottom: ratingsStackview.bottomAnchor, right: ratingsStackview.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
         addressLabel.anchor(top: ratingsStackview.bottomAnchor, left: ratingsStackview.leftAnchor, bottom: categoriesLabel.topAnchor, right: cardView.rightAnchor, paddingTop: 2, paddingLeft: 0, paddingBottom: 2, paddingRight: 8, width: 0, height: 0)
+        addressLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .vertical)
         
-        categoriesLabel.anchor(top: addressLabel.bottomAnchor, left: addressLabel.leftAnchor, bottom: dividerLine.topAnchor, right: cardView.rightAnchor, paddingTop: 2, paddingLeft: 0, paddingBottom: 8, paddingRight: 5, width: 0, height: 0)
+        categoriesLabel.anchor(top: addressLabel.bottomAnchor, left: addressLabel.leftAnchor, bottom: nil, right: cardView.rightAnchor, paddingTop: 2, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 0, height: 0)
+        categoriesLabel.bottomAnchor.constraint(greaterThanOrEqualTo: dividerLine.bottomAnchor, constant: -8).isActive = true
         
-        dividerLine.anchor(top: categoriesLabel.bottomAnchor, left: cardView.leftAnchor, bottom: nil, right: cardView.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: 0, height: 1)
+        dividerLine.anchor(top: nil, left: cardView.leftAnchor, bottom: nil, right: cardView.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: 0, height: 1)
+        dividerLine.topAnchor.constraint(greaterThanOrEqualTo: dividerLine.bottomAnchor, constant: 8).isActive = true
         
         addSubview(likeButton)
         likeButton.anchor(top: dividerLine.topAnchor, left: cardView.leftAnchor, bottom: cardView.bottomAnchor, right: nil, paddingTop: 8, paddingLeft: 30, paddingBottom: 10, paddingRight: 0, width: 40, height: 40)

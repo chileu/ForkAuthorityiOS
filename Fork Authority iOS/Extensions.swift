@@ -36,6 +36,7 @@ extension UIColor {
 let largeFontSize = CGFloat(21)
 let mediumFontSize = CGFloat(18)
 let smallFontSize = CGFloat(15)
+let smallerFontSize = CGFloat(12)
 let smallestFontSize = CGFloat(10)
 
 extension UIFont {
@@ -52,6 +53,9 @@ extension UIFont {
     static func smallBoldFont() -> UIFont {
         return UIFont.boldSystemFont(ofSize: smallFontSize)
     }
+    static func smallerBoldFont() -> UIFont {
+        return UIFont.boldSystemFont(ofSize: smallerFontSize)
+    }
     
     static func smallestBoldFont() -> UIFont {
         return UIFont.boldSystemFont(ofSize: smallestFontSize)
@@ -64,6 +68,10 @@ extension UIFont {
     
     static func smallFont() -> UIFont {
         return UIFont.systemFont(ofSize: smallFontSize)
+    }
+    
+    static func smallerFont() -> UIFont {
+        return UIFont.systemFont(ofSize: smallerFontSize)
     }
     
     static func smallestFont() -> UIFont {

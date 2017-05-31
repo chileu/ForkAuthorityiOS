@@ -81,6 +81,7 @@ class BusinessController: UICollectionViewController, UICollectionViewDelegateFl
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! BusinessCell
 
         cell.business = businesses[indexPath.item]
+        cell.business?.numberedOrder = indexPath.item + 1
         
         return cell
     }
@@ -93,6 +94,7 @@ class BusinessController: UICollectionViewController, UICollectionViewDelegateFl
         
         // set the cell's business after making api call
         dummyCell.business = businesses[indexPath.item]
+        dummyCell.business?.numberedOrder = indexPath.item + 1
         
         dummyCell.layoutIfNeeded()      // this needs to be set after you load in the comment!! very important
         
