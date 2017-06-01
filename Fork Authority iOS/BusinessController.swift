@@ -23,7 +23,7 @@ class BusinessController: UICollectionViewController, UICollectionViewDelegateFl
     var businesses = [Business]()
     let cellId = "cellId"
     let headerId = "headerId"
-
+    let yelpClient = YelpClient()
     
     let bannerView: UIView = {
         let view = UIView()
@@ -39,9 +39,10 @@ class BusinessController: UICollectionViewController, UICollectionViewDelegateFl
         return label
     }()
     
+    
     func searchYelp(for location: Location) {
 
-        YelpAPI.fetchBusinesses(for: location) { [weak self] (businesses) in
+        yelpClient.fetchBusinesses(for: location) { [weak self] (businesses) in
             if !businesses.isEmpty {
                 DispatchQueue.main.async {
                     self?.businesses = businesses
@@ -126,3 +127,4 @@ class BusinessController: UICollectionViewController, UICollectionViewDelegateFl
         return 0
     }
 }
+
