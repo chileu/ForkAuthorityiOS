@@ -43,6 +43,7 @@ class YelpClient {
                 // get exact number of results by doing one last fetch...
                 let remainingBusinesses = YelpAPI.Results.MAX_NUMBER_OF_RESULTS - businessArray.count
                 if remainingBusinesses < YelpAPI.ParamValues.limit, remainingBusinesses > 0 {
+                    self?.incrementProgress()
                     self?.fetchRemainingBusinesses(with: url, completion: { businesses in
                         if businesses.count > 0 {
                             businessArray += businesses[0...remainingBusinesses-1]
