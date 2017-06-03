@@ -17,6 +17,9 @@ class YelpClient {
     
     // MARK: Properties
     fileprivate var businessCache = [String: Business]()
+    fileprivate var total: Int?
+    fileprivate var max = YelpAPI.Results.MAX_NUMBER_OF_RESULTS
+    
     var delegate: YelpClientDelegate?
 
     // MARK: Methods for networking-related calls
@@ -26,31 +29,40 @@ class YelpClient {
         var businessArray = [Business]()
         var offset = YelpAPI.ParamValues.offset
         let limit = YelpAPI.ParamValues.limit
+
         
-        while offset < YelpAPI.Results.MAX_NUMBER_OF_RESULTS {
+        while offset < max {
             
-            let url = "\(YelpAPI.URLSTRING.BASE)\(YelpAPI.ParamKeys.TERM)\(YelpAPI.ParamValues.food)&\(YelpAPI.ParamKeys.RADIUS)\(YelpAPI.ParamValues.radius)&\(YelpAPI.ParamKeys.OFFSET)\(offset)&\(YelpAPI.ParamKeys.LIMIT)\(limit)&\(YelpAPI.ParamKeys.LATITUDE)\(location.coordinate.latitude)&\(YelpAPI.ParamKeys.LONGITUDE)\(location.coordinate.longitude)"
+            let url = "\(YelpAPI.baseURLForAPIcall)&\(YelpAPI.ParamKeys.OFFSET)\(offset)&\(YelpAPI.ParamKeys.LIMIT)\(limit)&\(YelpAPI.ParamKeys.LATITUDE)\(location.coordinate.latitude)&\(YelpAPI.ParamKeys.LONGITUDE)\(location.coordinate.longitude)"
             
             completeDataTask(with: url) { [weak self] businesses in
+                
+                // handle case where total is less than max number of desired results
+                if let total = self?.total, let max = self?.max, total < max {
+                    guard total > 0 else {
+                        completion([Business]())
+                        return
+                    }
+                    self?.max = total
+                }
+                
+                
                 self?.incrementProgress()
                 
                 businessArray += businesses
                 
-                if businessArray.count == YelpAPI.Results.MAX_NUMBER_OF_RESULTS {
+                if businessArray.count == self?.max {
                     completion(businessArray)
                 }
                 
                 // get exact number of results by doing one last fetch...
-                let remainingBusinesses = YelpAPI.Results.MAX_NUMBER_OF_RESULTS - businessArray.count
-                if remainingBusinesses < YelpAPI.ParamValues.limit, remainingBusinesses > 0 {
+                let remainingBusinesses = (self?.max ?? YelpAPI.Results.MAX_NUMBER_OF_RESULTS) - businessArray.count
+                if remainingBusinesses < YelpAPI.ParamValues.limit, remainingBusinesses > 0, businessArray.count > 0 {
                     self?.incrementProgress()
                     self?.fetchRemainingBusinesses(with: url, completion: { businesses in
-                        if businesses.count > 0 {
                             businessArray += businesses[0...remainingBusinesses-1]
                             businessArray.sort { $0.distance < $1.distance }
                             completion(businessArray)
-                        }
-                        completion(businessArray)
                     })
                 }
             }
@@ -64,7 +76,7 @@ class YelpClient {
     
     fileprivate func fetchRemainingBusinesses(with url: String, completion: @escaping ([Business]) -> ()) {
         let regex = try! NSRegularExpression(pattern: "(offset=)[0-9]+&", options: [])
-        let newUrl = regex.stringByReplacingMatches(in: url, options: [], range: NSRange(location: 0, length: url.characters.count), withTemplate: "offset=\(YelpAPI.Results.MAX_NUMBER_OF_RESULTS)&")
+        let newUrl = regex.stringByReplacingMatches(in: url, options: [], range: NSRange(location: 0, length: url.characters.count), withTemplate: "offset=\(max)&")
         completeDataTask(with: newUrl) { businesses in
             completion(businesses)
         }
@@ -114,6 +126,13 @@ class YelpClient {
     }
     
     fileprivate func parse(_ json: AnyObject, completion: @escaping ([Business]) -> () ) {
+        
+        if total == nil {
+            if let total = json["total"] as? Int {
+                self.total = total
+            }
+        }
+        
         guard let businesses = json["businesses"] as? [Dictionary<String, AnyObject>] else {
             print("Failed to get businesses from json")
             return

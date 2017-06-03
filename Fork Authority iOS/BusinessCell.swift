@@ -8,6 +8,8 @@
 
 import UIKit
 
+var imageCache = [String: UIImage]()
+
 class BusinessCell: UICollectionViewCell {
     
     var business: Business? {
@@ -26,10 +28,21 @@ class BusinessCell: UICollectionViewCell {
         categoriesLabel.text = business.categories.joined(separator: ", ")
     
         if let url = URL(string: business.image_url) {
+            
+            // try to fetch image from imageCache
+            if let image = imageCache[business.image_url] {
+                businessImageView.image = image
+            }
+
+            // if image is not in cache, fetch image on a background queue
             DispatchQueue.global(qos: .userInitiated).async {
                 if let data = try? Data(contentsOf: url) {
+                    
+                    let image = UIImage(data: data)
+                    imageCache[business.image_url] = image      // cache the image
+                    
                     DispatchQueue.main.async { [weak self] in
-                        self?.businessImageView.image = UIImage(data: data)
+                        self?.businessImageView.image = image
                     }
                 }
             }

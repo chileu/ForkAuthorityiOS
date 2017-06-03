@@ -10,6 +10,8 @@ import Foundation
 
 struct YelpAPI {
     
+    static let baseURLForAPIcall = "\(YelpAPI.URLSTRING.BASE)\(YelpAPI.ParamKeys.TERM)\(YelpAPI.ParamValues.food)&\(YelpAPI.ParamKeys.RADIUS)\(YelpAPI.ParamValues.radius)"
+    
     struct URLSTRING {
         static let BASE = "https://api.yelp.com/v3/businesses/search?"
     }
@@ -28,7 +30,7 @@ struct YelpAPI {
         static let food = "food"
         static let limit = 50
         static let offset = 0
-        static let radius = 1609 // 1609 meters / mile.
+        static let radius = 8000 // 1609 meters / mile.
         static let maximumLimit = 50
     }
     

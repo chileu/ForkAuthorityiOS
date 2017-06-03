@@ -58,12 +58,18 @@ class BusinessController: UICollectionViewController, UICollectionViewDelegateFl
         print("progress is incrementing...")
     }
     
+    override func didReceiveMemoryWarning() {
+        imageCache.removeAll()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         collectionView?.backgroundColor = UIColor.yelpBackgroundGrey()
         collectionView?.register(BusinessCell.self, forCellWithReuseIdentifier: cellId)
         collectionView?.register(BusinessHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
+        
+        collectionView?.isPrefetchingEnabled = false
         
         addBanner()
 
