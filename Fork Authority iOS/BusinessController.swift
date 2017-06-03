@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BusinessController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class BusinessController: UICollectionViewController, UICollectionViewDelegateFlowLayout, YelpClientDelegate {
     
     var location: Location? {
         didSet {
@@ -39,8 +39,9 @@ class BusinessController: UICollectionViewController, UICollectionViewDelegateFl
         return label
     }()
     
-    
     func searchYelp(for location: Location) {
+        
+        yelpClient.delegate = self
 
         yelpClient.fetchBusinesses(for: location) { [weak self] (businesses) in
             if !businesses.isEmpty {
@@ -50,6 +51,11 @@ class BusinessController: UICollectionViewController, UICollectionViewDelegateFl
                 }
             }
         }
+        
+    }
+    
+    func incrementProgress() {
+        print("progress is incrementing...")
     }
     
     override func viewDidLoad() {
@@ -111,7 +117,12 @@ class BusinessController: UICollectionViewController, UICollectionViewDelegateFl
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! BusinessHeader
 
-        header.location = self.location
+        if location != nil {
+            header.location = location
+            header.greenIndicator.isHidden = false
+        } else {
+            header.greenIndicator.isHidden = true
+        }
         
         return header
     }

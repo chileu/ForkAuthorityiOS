@@ -9,12 +9,15 @@
 import Foundation
 import CoreLocation
 
+protocol YelpClientDelegate {
+    func incrementProgress()
+}
 
 class YelpClient {
     
     // MARK: Properties
     fileprivate var businessCache = [String: Business]()
-
+    var delegate: YelpClientDelegate?
 
     // MARK: Methods for networking-related calls
     
@@ -28,26 +31,43 @@ class YelpClient {
             
             let url = "\(YelpAPI.URLSTRING.BASE)\(YelpAPI.ParamKeys.TERM)\(YelpAPI.ParamValues.food)&\(YelpAPI.ParamKeys.RADIUS)\(YelpAPI.ParamValues.radius)&\(YelpAPI.ParamKeys.OFFSET)\(offset)&\(YelpAPI.ParamKeys.LIMIT)\(limit)&\(YelpAPI.ParamKeys.LATITUDE)\(location.coordinate.latitude)&\(YelpAPI.ParamKeys.LONGITUDE)\(location.coordinate.longitude)"
             
-            completeDataTask(with: url) { businesses in
+            completeDataTask(with: url) { [weak self] businesses in
+                self?.incrementProgress()
+                
                 businessArray += businesses
                 
-                let remainingBusinesses = YelpAPI.Results.MAX_NUMBER_OF_RESULTS - businessArray.count
-                if remainingBusinesses < YelpAPI.ParamValues.limit {
-                    businessArray.sort { $0.distance < $1.distance }
+                if businessArray.count == YelpAPI.Results.MAX_NUMBER_OF_RESULTS {
                     completion(businessArray)
+                }
+                
+                // get exact number of results by doing one last fetch...
+                let remainingBusinesses = YelpAPI.Results.MAX_NUMBER_OF_RESULTS - businessArray.count
+                if remainingBusinesses < YelpAPI.ParamValues.limit, remainingBusinesses > 0 {
+                    self?.fetchRemainingBusinesses(with: url, completion: { businesses in
+                        if businesses.count > 0 {
+                            businessArray += businesses[0...remainingBusinesses-1]
+                            businessArray.sort { $0.distance < $1.distance }
+                            completion(businessArray)
+                        }
+                        completion(businessArray)
+                    })
                 }
             }
             offset += YelpAPI.ParamValues.limit
-            print(url)
         }
     }
     
-    //fileprivate func fetch(_ remainingBusinesses: Int, with url: String, completion: @escaping ([Business]) -> ()) {
-    //    let newUrl = url.replacingOccurrences(of: "offset=\(YelpAPI.ParamValues.offset)", with: "offset=\(YelpAPI.Results.MAX_NUMBER_OF_RESULTS)")
-    //    completeDataTask(with: newUrl) { businesses in
-    //        completion(businesses)
-    //    }
-    //}
+    func incrementProgress() {
+        delegate?.incrementProgress()
+    }
+    
+    fileprivate func fetchRemainingBusinesses(with url: String, completion: @escaping ([Business]) -> ()) {
+        let regex = try! NSRegularExpression(pattern: "(offset=)[0-9]+&", options: [])
+        let newUrl = regex.stringByReplacingMatches(in: url, options: [], range: NSRange(location: 0, length: url.characters.count), withTemplate: "offset=\(YelpAPI.Results.MAX_NUMBER_OF_RESULTS)&")
+        completeDataTask(with: newUrl) { businesses in
+            completion(businesses)
+        }
+    }
     
     fileprivate func completeDataTask(with url: String, completion: @escaping ([Business]) -> ()) {
         

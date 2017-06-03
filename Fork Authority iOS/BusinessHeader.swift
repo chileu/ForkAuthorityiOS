@@ -19,9 +19,7 @@ class BusinessHeader: UICollectionViewCell {
     
     let searchTextField: UITextField = {
         let tf = UITextField()
-        
         tf.textColor = UIColor.yelpFontGrey()
-        
         return tf
     }()
     
@@ -41,11 +39,6 @@ class BusinessHeader: UICollectionViewCell {
         let attributedText = NSMutableAttributedString(string: "FOOD OPTIONS", attributes: [NSFontAttributeName: UIFont.mediumFont(), NSForegroundColorAttributeName: UIColor.yelpFontGrey(), NSParagraphStyleAttributeName: paragraph])
         attributedText.addAttribute(NSKernAttributeName, value: CGFloat(2.0), range: NSRange(location: 0, length: attributedText.length - 1))
         label.attributedText = attributedText
-        
-        //label.text = "FOOD OPTIONS"
-        //label.textAlignment = .center
-        //label.font = UIFont.mediumFont()
-        //label.textColor = UIColor.yelpFontGrey()
         return label
     }()
     
