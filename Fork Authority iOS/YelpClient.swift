@@ -18,7 +18,7 @@ class YelpClient {
     // MARK: Properties
     fileprivate var businessCache = [String: Business]()
     fileprivate var total: Int?
-    fileprivate var max = YelpAPI.Results.MAX_NUMBER_OF_RESULTS
+    fileprivate var max: Int? = YelpAPI.Results.MAX_NUMBER_OF_RESULTS
     
     var delegate: YelpClientDelegate?
 
@@ -29,7 +29,8 @@ class YelpClient {
         var businessArray = [Business]()
         var offset = YelpAPI.ParamValues.offset
         let limit = YelpAPI.ParamValues.limit
-
+        
+        guard let max = max else { return }
         
         while offset < max {
             

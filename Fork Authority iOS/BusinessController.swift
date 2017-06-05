@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BusinessController: UICollectionViewController, UICollectionViewDelegateFlowLayout, YelpClientDelegate {
+class BusinessController: UICollectionViewController, UICollectionViewDelegateFlowLayout, YelpClientDelegate, UICollectionViewDataSourcePrefetching {
     
     var location: Location? {
         didSet {
@@ -69,10 +69,20 @@ class BusinessController: UICollectionViewController, UICollectionViewDelegateFl
         collectionView?.register(BusinessCell.self, forCellWithReuseIdentifier: cellId)
         collectionView?.register(BusinessHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
         
-        collectionView?.isPrefetchingEnabled = false
+        collectionView?.delegate = self
+        collectionView?.dataSource = self
+        collectionView?.prefetchDataSource = nil
         
         addBanner()
 
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
+        
     }
     
     fileprivate func addBanner() {

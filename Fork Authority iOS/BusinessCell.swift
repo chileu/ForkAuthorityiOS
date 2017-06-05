@@ -32,6 +32,7 @@ class BusinessCell: UICollectionViewCell {
             // try to fetch image from imageCache
             if let image = imageCache[business.image_url] {
                 businessImageView.image = image
+                return
             }
 
             // if image is not in cache, fetch image on a background queue
