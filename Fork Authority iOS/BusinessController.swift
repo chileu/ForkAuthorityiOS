@@ -24,6 +24,7 @@ class BusinessController: UICollectionViewController, UICollectionViewDelegateFl
     let cellId = "cellId"
     let headerId = "headerId"
     let yelpClient = YelpClient()
+    var header: BusinessHeader?
     
     let bannerView: UIView = {
         let view = UIView()
@@ -55,7 +56,11 @@ class BusinessController: UICollectionViewController, UICollectionViewDelegateFl
     }
     
     func incrementProgress() {
-        print("progress is incrementing...")
+        DispatchQueue.main.async { [weak self] in
+            self?.header?.progressBar.setProgress(0.5, animated: true)
+            
+            print("progress is incrementing...")
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -124,6 +129,8 @@ class BusinessController: UICollectionViewController, UICollectionViewDelegateFl
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! BusinessHeader
+        
+        self.header = header
 
         if location != nil {
             header.location = location

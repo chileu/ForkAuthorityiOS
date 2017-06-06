@@ -27,7 +27,7 @@ class BusinessHeader: UICollectionViewCell {
         let label = UILabel()
         label.font = UIFont.smallerFont()
         label.textColor = UIColor.yelpFontGrey()
-        label.text = "Loading stuff to eat..."
+        label.text = "Loading stuff to eat ..."
         return label
     }()
     
