@@ -19,7 +19,7 @@ class BusinessHeader: UICollectionViewCell {
     
     let progressBar: UIProgressView = {
         let pv = UIProgressView()
-        pv.progressTintColor = .red
+        pv.progressTintColor = UIColor.yelpRed()
         return pv
     }()
     

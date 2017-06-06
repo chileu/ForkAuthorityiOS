@@ -69,6 +69,7 @@ class BusinessController: UICollectionViewController, UICollectionViewDelegateFl
         collectionView?.register(BusinessCell.self, forCellWithReuseIdentifier: cellId)
         collectionView?.register(BusinessHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
         
+        // creates a sticky header
         let layout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout
         layout?.sectionHeadersPinToVisibleBounds = true
         
