@@ -26,6 +26,10 @@ class BusinessCell: UICollectionViewCell {
         addressLabel.text = business.address
         reviewsLabel.text = "\(business.review_count)" + " review\(business.review_count > 1 ? "s" : " ")"
         categoriesLabel.text = business.categories.joined(separator: ", ")
+        
+        if let image = UIImage(named: "\(business.rating)") {
+            ratingsImageView.image = image
+        }
     
         if let url = URL(string: business.image_url) {
             
@@ -35,7 +39,6 @@ class BusinessCell: UICollectionViewCell {
                 return
             }
 
-            // if image is not in cache, fetch image on a background queue
             DispatchQueue.global(qos: .userInitiated).async {
                 if let data = try? Data(contentsOf: url) {
                     
@@ -47,11 +50,9 @@ class BusinessCell: UICollectionViewCell {
                     }
                 }
             }
+            
         }
 
-        if let image = UIImage(named: "\(business.rating)") {
-            ratingsImageView.image = image
-        }
 
     }
     

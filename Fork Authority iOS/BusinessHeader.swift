@@ -17,6 +17,20 @@ class BusinessHeader: UICollectionViewCell {
         }
     }
     
+    let progressBar: UIProgressView = {
+        let pv = UIProgressView()
+        pv.progressTintColor = .red
+        return pv
+    }()
+    
+    let progressLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.smallerFont()
+        label.textColor = UIColor.yelpFontGrey()
+        label.text = "Loading stuff to eat..."
+        return label
+    }()
+    
     let searchTextField: UITextField = {
         let tf = UITextField()
         tf.textColor = UIColor.yelpFontGrey()
@@ -92,6 +106,12 @@ class BusinessHeader: UICollectionViewCell {
         poweredByLabel.anchor(top: logoStackview.topAnchor, left: logoStackview.leftAnchor, bottom: logoStackview.bottomAnchor, right: yelpLogo.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
         yelpLogo.anchor(top: logoStackview.topAnchor, left: nil, bottom: logoStackview.bottomAnchor, right: logoStackview.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 55, height: 0)
+        
+        addSubview(progressBar)
+        progressBar.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 5)
+        
+        addSubview(progressLabel)
+        progressLabel.anchor(top: nil, left: progressBar.leftAnchor, bottom: progressBar.topAnchor, right: progressBar.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 2, paddingRight: 0, width: 0, height: 15)
     }
     
     required init?(coder aDecoder: NSCoder) {

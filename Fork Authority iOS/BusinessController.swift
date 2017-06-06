@@ -69,6 +69,9 @@ class BusinessController: UICollectionViewController, UICollectionViewDelegateFl
         collectionView?.register(BusinessCell.self, forCellWithReuseIdentifier: cellId)
         collectionView?.register(BusinessHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
         
+        let layout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout
+        layout?.sectionHeadersPinToVisibleBounds = true
+        
         addBanner()
 
     }
@@ -134,7 +137,7 @@ class BusinessController: UICollectionViewController, UICollectionViewDelegateFl
     // *must* specify this method to render the header (unlike cell, which can be rendered without additional methods)
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         
-        return CGSize(width: view.frame.width, height: 80)
+        return CGSize(width: view.frame.width, height: 105)
         
     }
     
